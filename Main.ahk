@@ -9,31 +9,22 @@ VolumeOverlayInstance := VolumeOverlay()
 VolumeOverlayStrip := 1
 VolumeOverlayTimeout := 2000
 
-VolumeUp()
+GainMod(aValue)
 {
-    ; Send "{Volume_Up}"
+    gain := VoicemeeterInstance.GetStripGain(VolumeOverlayStrip)
+    gain := VoicemeeterInstance.ParamGain(gain + aValue)
 
-    gain := VoicemeeterInstance.GetStripGain(VolumeOverlayStrip) + 1
     VoicemeeterInstance.SetStripGain(VolumeOverlayStrip, gain)
+
     VolumeOverlayInstance.SetValue(gain)
     VolumeOverlayInstance.Play(VolumeOverlayTimeout)
 }
 
-VolumeDown()
+ToggleMute()
 {
-    ; Send "{Volume_Down}"
+    value := VoicemeeterInstance.GetStripMute(VolumeOverlayStrip)
+    value := value ? 0 : 1 ; Toggle
 
-    gain := VoicemeeterInstance.GetStripGain(VolumeOverlayStrip) - 1
-    VoicemeeterInstance.SetStripGain(VolumeOverlayStrip, gain)
-    VolumeOverlayInstance.SetValue(gain)
-    VolumeOverlayInstance.Play(VolumeOverlayTimeout)
-}
-
-Mute()
-{
-    ; Send "{Volume_Mute}"
-
-    value := VoicemeeterInstance.GetStripMute(VolumeOverlayStrip) ? 0 : 1 ; Toggle
     VoicemeeterInstance.SetStripMute(VolumeOverlayStrip, value)
 
     if value
@@ -48,9 +39,9 @@ Mute()
 }
 
 
-RCtrl & Up::VolumeUp
-RCtrl & Down::VolumeDown
-RCtrl & m::Mute
+RCtrl & Up::GainMod(1)
+RCtrl & Down::GainMod(-1)
+RCtrl & m::ToggleMute()
 
 RCtrl & Space::Send	"{Media_Play_Pause}"
 RCtrl & Left::Send	"{Media_Prev}"

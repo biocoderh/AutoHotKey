@@ -25,7 +25,18 @@ class Voicemeeter
         
         return aValue
     }
-    
+
+    ParamGain(aValue)
+    {
+        if aValue > 12
+            return 12.0
+
+        if aValue < -60
+            return -60.0
+
+        return Float(aValue)
+    }
+
     Sync()
     {
         DllCall(this._dllName . "\VBVMR_IsParametersDirty")
