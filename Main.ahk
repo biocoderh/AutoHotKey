@@ -39,8 +39,8 @@ ToggleMute()
 }
 
 
-RCtrl & Up::GainMod(1)
-RCtrl & Down::GainMod(-1)
+RCtrl & Up::GainMod(5)
+RCtrl & Down::GainMod(-5)
 RCtrl & m::ToggleMute()
 
 RCtrl & Space::Send	"{Media_Play_Pause}"
@@ -52,4 +52,7 @@ RCtrl & Right::Send	"{Media_Next}"
 LWin::Send ""
 #HotIf
 
+#HotIf WinActive("ahk_exe WindowsTerminal.exe") or WinActive("ahk_exe Code.exe")
 CapsLock::Esc
+Esc::CapsLock
+#HotIf
